@@ -10,7 +10,6 @@
  */
 
 import java.util.Iterator;
-import java.util.Scanner;
 
 public class QueueArray<Item> implements Iterable<Item>, Queue<Item>{
 
@@ -35,6 +34,9 @@ public class QueueArray<Item> implements Iterable<Item>, Queue<Item>{
     }
 
     public void enqueue(Item item) {
+        if (size == items.length - 1) {
+            resize(items.length * 2);
+        }
 
         items[tail++] = item;
 
@@ -57,6 +59,9 @@ public class QueueArray<Item> implements Iterable<Item>, Queue<Item>{
                 head = 0;
             }
 
+            if (size > 0 && size == items.length / 4) {
+                resize(items.length / 2);
+            }
 
             return itemToReturn;
         }
@@ -64,6 +69,13 @@ public class QueueArray<Item> implements Iterable<Item>, Queue<Item>{
 
     private void resize(int capacity) {
         //TODO : Implement the resize method and use it in the correct spots in QueueArray
+        Item[] newArray = (Item[]) new Object[capacity];
+        for (int i = 0; i < size; i++) {
+            newArray[i] = items[(head + i) % items.length];
+        }
+        items = newArray;
+        head = 0;
+        tail = size;
     }
 
     public Iterator<Item> iterator() {
@@ -89,7 +101,7 @@ public class QueueArray<Item> implements Iterable<Item>, Queue<Item>{
              */
             public boolean hasNext() {
                 //TODO Implement the hasNext() method
-                return true;
+                return count < size;
             }
 
             /**
@@ -101,7 +113,15 @@ public class QueueArray<Item> implements Iterable<Item>, Queue<Item>{
              */
             public Item next() {
                 //TODO Implement the next() method
-                Item item = items[0];
+                if (!hasNext()) {
+                    throw new java.util.NoSuchElementException();
+                }
+                Item item = items[pos];
+                pos++;
+                if (pos == items.length) {
+                    pos = 0;
+                }
+                count++;
                 return item;
 
             }

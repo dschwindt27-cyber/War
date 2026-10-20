@@ -10,6 +10,12 @@ public class Pile extends QueueArray<Card> {
         //   Pile pile = new Pile("As 2s 3s Jh Qh Kh 4d 5d 6d 7c 8c 9c");
 
         // TODO: implement pile constructor
+        Scanner scanner = new Scanner(cards);
+        while (scanner.hasNext()) {
+            String token = scanner.next();
+            this.enqueue(new Card(token.charAt(0), token.charAt(1)));
+        }
+        scanner.close();
     }
 
     public String toString() {
@@ -23,7 +29,14 @@ public class Pile extends QueueArray<Card> {
         //   Kc  Td  Jc  Th  9s  Kd
         // TODO: implement toString. Use a  'for (Card card : this) {}' loop to print them
         String output = "";
-
+        int count = 0;
+        for (Card card : this) {
+            output += card.toString() + "  ";
+            count++;
+            if (count % 10 == 0) {
+                output += System.lineSeparator();
+            }
+        }
         return output;
 
     }
@@ -37,5 +50,23 @@ public class Pile extends QueueArray<Card> {
      */
     public void shuffle() {
         // TODO: implement the riffle shuffle
+        int total = this.size();
+        int half1Size = (total + 1) / 2;
+        Pile half1 = new Pile("");
+        Pile half2 = new Pile("");
+
+        for (int i = 0; i < half1Size; i++) {
+            half1.enqueue(this.dequeue());
+        }
+        while (!this.isEmpty()) {
+            half2.enqueue(this.dequeue());
+        }
+        while (!half1.isEmpty() && !half2.isEmpty()) {
+            this.enqueue(half1.dequeue());
+            this.enqueue(half2.dequeue());
+        }
+        while (!half1.isEmpty()) {
+            this.enqueue(half1.dequeue());
+        }
     }
 }

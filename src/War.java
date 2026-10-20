@@ -58,6 +58,61 @@ public class War {
         numTurns = 1;
 
         // TODO: ADD CODE HERE TO COMPLETE THIS METHOD...
+        while (numTurns <= 5000 && !pile1.isEmpty() && !pile2.isEmpty()) {
+            printPiles();
 
+            QueueArray<Card> pot = new QueueArray<>();
+
+            while (true) {
+                if (pile1.isEmpty() || pile2.isEmpty()) {
+                    break;
+                }
+
+                Card c1 = pile1.dequeue();
+                Card c2 = pile2.dequeue();
+                pot.enqueue(c1);
+                pot.enqueue(c2);
+
+                int result = c1.compareTo(c2);
+
+                if (result > 0) {
+                    while (!pot.isEmpty()) pile1.enqueue(pot.dequeue());
+                    break;
+                } else if (result < 0) {
+                    while (!pot.isEmpty()) pile2.enqueue(pot.dequeue());
+                    break;
+                } else {
+                    printWar();
+
+                    boolean playerRanOut = false;
+                    for (int i = 0; i < 3; i++) {
+                        if (pile1.isEmpty() || pile2.isEmpty()) {
+                            playerRanOut = true;
+                            break;
+                        }
+                        pot.enqueue(pile1.dequeue());
+                        pot.enqueue(pile2.dequeue());
+                    }
+                    if (playerRanOut) {
+                        break;
+                    }
+                }
+            }
+
+            if (pile1.isEmpty() || pile2.isEmpty()) {
+                break;
+            }
+            numTurns++;
+        }
+
+        if (pile1.isEmpty() && pile2.isEmpty()) {
+            System.out.println("draw!");
+        } else if (pile1.isEmpty()) {
+            System.out.println("player 2 wins!");
+        } else if (pile2.isEmpty()) {
+            System.out.println("player 1 wins!");
+        } else {
+            System.out.println("draw!");
+        }
     }
 }
