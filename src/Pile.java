@@ -33,7 +33,7 @@ public class Pile extends QueueArray<Card> {
         for (Card card : this) {
             output += card.toString() + "  ";
             count++;
-            if (count % 10 == 0) {
+            if (count % 10 == 0){
                 output += System.lineSeparator();
             }
         }

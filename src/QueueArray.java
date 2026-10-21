@@ -59,7 +59,7 @@ public class QueueArray<Item> implements Iterable<Item>, Queue<Item>{
                 head = 0;
             }
 
-            if (size > 0 && size == items.length / 4) {
+            if (size > 0 && size == items.length / 4){
                 resize(items.length / 2);
             }
 

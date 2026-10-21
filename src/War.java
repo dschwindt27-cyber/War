@@ -12,7 +12,7 @@ public class War {
 
     // ADD ADDITIONAL VARIABLES HERE, IF DESIRED...
 
-    public static void printPiles() {
+    public static void printPiles(){
 
         // For your convenience, this prints the cards in
         // pile1 and pile2 along with the turn number, as specified
